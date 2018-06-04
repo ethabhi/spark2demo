@@ -7,14 +7,16 @@ object GetRevenuePerOrderDF {
 
     val spark =SparkSession
       .builder()
-      .master("local")
+      .master(args(0))
       .appName("Spark Session SQL")
       .getOrCreate()
     spark.sparkContext.setLogLevel("Error")
     import spark.implicits._
 
-    val orderItems = spark.read.json("C:\\data\\retail_db_json\\order_items")
+    val orderItems = spark.read.json(args(1))
 
-    orderItems.groupBy($"order_item_order_id").sum("order_item_subtotal").show()
+    val OrderItemsDF= orderItems.groupBy($"order_item_order_id").sum("order_item_subtotal")
+
+    OrderItemsDF.write.csv(args(2))
   }
 }
