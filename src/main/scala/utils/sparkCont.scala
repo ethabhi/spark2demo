@@ -11,6 +11,7 @@ trait sparkCont {
     .setMaster("local[*]")
     .set("spark.cores.max", "2")
 
+
   val sparkSession = SparkSession.builder()
     .config(sparkConf)
     .getOrCreate()
